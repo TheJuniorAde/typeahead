@@ -54,7 +54,6 @@ export const getListItemStyles = (
   minItemHeight: number
 ): React.CSSProperties => ({
   backgroundColor: isActive ? "rgba(0, 0, 0, 0.04)" : "#FFFFFF",
-
   minHeight: minItemHeight,
   lineHeight: `${minItemHeight}px`,
 })
@@ -74,19 +73,13 @@ export const getItems = (
 
 export const getDropdownStyles = (
   show: boolean,
-  inputHeight: number,
-  listHeight: number
+  inputHeight: number
 ): React.CSSProperties => ({
   visibility: getVisibility(show),
   top: inputHeight,
-  height: listHeight,
 })
 
-export const getListStyles = (
-  listHeight: number,
-  maxMenuHeight: number
-): React.CSSProperties => ({
+export const getListStyles = (maxMenuHeight: number): React.CSSProperties => ({
   width: "100%",
-  height: listHeight,
   maxHeight: maxMenuHeight,
 })

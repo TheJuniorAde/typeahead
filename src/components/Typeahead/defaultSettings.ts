@@ -67,6 +67,7 @@ export const defaultTypeaheadContext: TypeaheadListItemsProps = {
   onKeyDown: () => null,
   onChangeInput: () => null,
   term: "",
+  deferredTerm: "",
   label: "",
   placeholder: "",
   onRemoveItem: () => null,

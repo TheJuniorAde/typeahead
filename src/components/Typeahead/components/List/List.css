@@ -3,3 +3,11 @@
   padding-left: 10px;
   padding-right: 10px;
 }
+
+.list-item:hover {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+.highlighted {
+  background-color: #e7f068;
+}

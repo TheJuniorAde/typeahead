@@ -1,0 +1,4 @@
+.list-item:hover,
+.icon-button:hover {
+  cursor: pointer;
+}

@@ -104,6 +104,7 @@ export interface TypeaheadListItemsProps {
   onChangeInput: (value: string) => void
   onKeyDown: (keyCode: string) => void
   term: string
+  deferredTerm: string
   placeholder: string
   label: string
   onRemoveItem: (item: TypeaheadSelectedItem) => void
@@ -117,10 +118,9 @@ export interface TypeaheadListItemsProps {
 export interface ItemProps {
   index: number
   activeItem: number
-  data: TypeaheadDataList
+  item: TypeaheadDataListItem
   loading: boolean
   onClick: (item: TypeaheadDataListItem) => void
   checkIfSelected: (item: TypeaheadDataListItem) => boolean
-  menuLabels: TypeaheadMenuSettingsLabels
   minItemHeight: number
 }

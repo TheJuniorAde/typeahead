@@ -15,7 +15,7 @@ function App() {
         label="Typeahead"
         placeholder="With Custom Placeholder"
         selected={[{ id: 1, label: "Value" }]}
-        options={Array(100)
+        options={Array(1000)
           .fill(null)
           .map((_: null, index) => ({
             id: index + 1,

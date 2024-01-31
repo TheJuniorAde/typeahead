@@ -17,6 +17,8 @@ import { ClickOutHandler } from "../ClickOutHandler/ClickOutHandler"
 import { DropdownList } from "./components/Dropdown"
 import { BaseInput } from "./components/BaseInput"
 
+import "./Typeahead.css"
+
 /**
  * The main context for the component. It holds all the props needed in the list and the input
  */
@@ -72,15 +74,15 @@ export const Typeahead: React.FC<TypeaheadProps> = ({
     () => ({
       cachingSettings: {
         ...defaultCachingSettings,
-        ...(cachingSettings || {}),
+        ...(cachingSettings ?? {}),
       },
       externalSettings: {
         ...defaultExternalSettings,
-        ...(externalSettings || {}),
+        ...(externalSettings ?? {}),
       },
       menuSettings: {
         ...defaultMenuSettings,
-        ...(menuSettings || {}),
+        ...(menuSettings ?? {}),
         menuLabels: {
           ...defaultMenuSettings.menuLabels,
           ...(menuSettings.menuLabels ?? {}),

@@ -1,10 +1,8 @@
 import React, {
-  startTransition,
   useCallback,
   useContext,
   useEffect,
   useLayoutEffect,
-  useRef,
   useState,
 } from "react"
 
@@ -15,7 +13,6 @@ import {
   getItems,
   getDropdownStyles,
   getListStyles,
-  clamp,
 } from "../../business/utils"
 import { List } from "../List"
 
@@ -26,7 +23,6 @@ import "./DropdownList.css"
  */
 export const DropdownList: React.FC = () => {
   const {
-    data,
     activeItem,
     onClick,
     selectedItems,
@@ -36,11 +32,7 @@ export const DropdownList: React.FC = () => {
     loading,
     maxMenuHeight,
     minItemHeight,
-    menuLabels,
   } = useContext(TypeaheadContext)
-
-  const listRef = useRef<any>(null)
-  const listHeightRef = useRef<number>(320)
 
   const [mustResize, setMustResize] = useState(false)
 
@@ -57,34 +49,31 @@ export const DropdownList: React.FC = () => {
     [selectedItems, multiple]
   )
 
-  const getCount = useCallback(() => {
-    if (loading || data.length === 0) {
-      return 1
-    }
-
-    return data.length
-  }, [loading, data])
-
-  const renderRow = (index: number) => (
+  const renderRow = (item: TypeaheadDataListItem, index: number) => (
     <DropdownListItem
       index={index}
-      data={data}
+      item={item}
       activeItem={activeItem}
       loading={loading}
       onClick={onClick}
       checkIfSelected={checkIfSelected}
-      menuLabels={menuLabels}
       key={`list-item-${index}`}
       minItemHeight={minItemHeight}
     />
   )
 
-  // when the current active item is changed (through keyDown events), we must scroll the virtualized list to show it to the screen
+  // when the current active item is changed (through keyDown events), we must scroll the list to show it to the screen
   useEffect(() => {
-    listRef.current.scrollIntoView({
-      index: activeItem,
-      behavior: "auto",
-    })
+    const el = document.getElementById(`list-item-${activeItem}`)
+
+    // @ts-ignore
+    // As implementing a full blown virtualised list could be too problematic for this test,
+    // I've decided to use this small snippet, where it scrolls to the item when navigating with the keyboard
+    // WARNING: does not work with firefox and firefox mobile
+    // https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
+    if (el?.scrollIntoViewIfNeeded)
+      //@ts-ignore
+      el?.scrollIntoViewIfNeeded(false)
   }, [activeItem])
 
   // size calculations happens very fast, and sometimes the component does not re-render the resized list properly. So, we force it to
@@ -95,18 +84,13 @@ export const DropdownList: React.FC = () => {
   return (
     <div
       className="dropdown-list-root"
-      style={getDropdownStyles(show, inputHeight, listHeightRef.current)}
+      style={getDropdownStyles(show, inputHeight)}
     >
       <div
         className="dropdown-list-container"
         style={{ maxHeight: maxMenuHeight }}
       >
-        <List
-          style={getListStyles(listHeightRef.current, maxMenuHeight)}
-          count={getCount()}
-          renderRow={renderRow}
-          ref={listRef}
-        />
+        <List style={getListStyles(maxMenuHeight)} renderRow={renderRow} />
       </div>
     </div>
   )

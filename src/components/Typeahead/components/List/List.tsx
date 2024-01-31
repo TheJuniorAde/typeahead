@@ -1,22 +1,34 @@
-import React, { forwardRef } from "react"
+import React, { useContext } from "react"
+import { TypeaheadDataListItem } from "../../types"
+import { SingleListItem } from "./ListItem"
+import { TypeaheadContext } from "../../Typeahead"
 
 import "./List.css"
 
 export interface ListProps {
   style?: React.CSSProperties
-  count: number
-  renderRow: (index: number) => React.ReactNode
+  renderRow: (item: TypeaheadDataListItem, index: number) => React.ReactNode
 }
 
-export const List = forwardRef(
-  (
-    { style, count, renderRow }: ListProps,
-    ref: React.ForwardedRef<HTMLDivElement>
-  ) => (
-    <div className="list-root" style={style} ref={ref}>
-      {Array(count)
-        .fill(null)
-        .map((_: null, index) => renderRow(index))}
+export const List: React.FC<ListProps> = ({ style, renderRow }) => {
+  const { data, loading, menuLabels, minItemHeight } =
+    useContext(TypeaheadContext)
+
+  return (
+    <div className="list-root" style={style}>
+      {loading && (
+        <SingleListItem
+          label={menuLabels.fetchingResults}
+          minItemHeight={minItemHeight}
+        />
+      )}
+      {data.length === 0 && !loading && (
+        <SingleListItem
+          label={menuLabels.noResultsFound}
+          minItemHeight={minItemHeight}
+        />
+      )}
+      {data.map((item, index) => renderRow(item, index))}
     </div>
   )
-)
+}

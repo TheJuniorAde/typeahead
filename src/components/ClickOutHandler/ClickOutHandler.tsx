@@ -19,6 +19,7 @@ export const ClickOutHandler: React.FC<ClickOutHandlerProps> = ({
     return () => {
       document.removeEventListener("click", clickOutEventHandler, true)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onClickOut, containerRef.current])
 
   return <div ref={containerRef}>{children}</div>

@@ -1,19 +1,9 @@
-import React from "react"
+import React, { useContext, useMemo } from "react"
 import { ListItem } from "../List"
 import { Text } from "../Text"
 import { ItemProps } from "../../types"
 import { getListItemStyles } from "../../business/utils"
-
-const SingleItem: React.FC<{ label: string }> = ({ label }) => (
-  <ListItem
-    aria-label={`list item info: ${label}`}
-    className="list-item"
-    key="typeahead-list-single"
-    data-testid="typeahead-single-item"
-  >
-    <Text>{label}</Text>
-  </ListItem>
-)
+import { TypeaheadContext } from "../../Typeahead"
 
 /**
  * The List item for the pop-up list. As this component can be called multiple times at once
@@ -23,25 +13,40 @@ const SingleItem: React.FC<{ label: string }> = ({ label }) => (
 export const DropdownListItem = React.memo(
   ({
     index,
-    data,
+    item,
     activeItem,
     loading,
     onClick,
     checkIfSelected,
-    menuLabels,
     minItemHeight,
   }: ItemProps) => {
-    const item = data[index]
     const isSelected = checkIfSelected(item)
+    const { deferredTerm } = useContext(TypeaheadContext)
+
+    const highlightedText = useMemo(() => {
+      const cleanTerm = deferredTerm.trim().toLowerCase()
+      const label = String(item.label)
+
+      if (!cleanTerm) return { __html: label }
+
+      const termIndex = label.toLowerCase().indexOf(cleanTerm)
+
+      return {
+        __html: `${label.substring(
+          0,
+          termIndex
+        )}<span class="highlighted">${label.substring(
+          termIndex,
+          termIndex + cleanTerm.length
+        )}</span>${label.substring(termIndex + cleanTerm.length)}`,
+      }
+    }, [deferredTerm, item.label])
 
     return (
       <>
-        {loading && <SingleItem label={menuLabels.fetchingResults} />}
-        {data.length === 0 && !loading && (
-          <SingleItem label={menuLabels.noResultsFound} />
-        )}
         {!loading && !!item && (
           <ListItem
+            id={`list-item-${index}`}
             aria-label={`list item option: ${item.label}`}
             className="list-item"
             onClick={() => onClick(item)}
@@ -60,7 +65,7 @@ export const DropdownListItem = React.memo(
                 overflowX: "hidden",
               }}
             >
-              {item.label}
+              <div dangerouslySetInnerHTML={highlightedText} />
             </Text>
           </ListItem>
         )}
