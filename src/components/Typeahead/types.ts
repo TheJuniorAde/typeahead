@@ -57,6 +57,7 @@ export interface TypeaheadProps {
   cachingSettings?: TypeaheadCachingProps
   externalSettings?: TypeaheadExternalProps
   multiple?: boolean
+  closeOnSelect?: boolean
   options?: TypeaheadDataList
   selected?: TypeaheadSelectedItems
   onChange: (value: TypeaheadSelectedItems) => void

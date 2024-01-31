@@ -26,10 +26,9 @@ export const DropdownListItem = React.memo(
     const highlightedText = useMemo(() => {
       const cleanTerm = deferredTerm.trim().toLowerCase()
       const label = String(item.label)
-
-      if (!cleanTerm) return { __html: label }
-
       const termIndex = label.toLowerCase().indexOf(cleanTerm)
+
+      if (!cleanTerm || termIndex < 0) return { __html: label }
 
       return {
         __html: `${label.substring(

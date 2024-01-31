@@ -54,8 +54,7 @@ export const getListItemStyles = (
   minItemHeight: number
 ): React.CSSProperties => ({
   backgroundColor: isActive ? "rgba(0, 0, 0, 0.04)" : "#FFFFFF",
-  minHeight: minItemHeight,
-  lineHeight: `${minItemHeight}px`,
+  minHeight: minItemHeight - 20, // the padding size must be deducted
 })
 
 export const clamp = (value: number, min: number, max: number) =>

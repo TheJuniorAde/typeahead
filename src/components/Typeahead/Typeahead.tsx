@@ -57,6 +57,7 @@ export const Typeahead: React.FC<TypeaheadProps> = ({
   cachingSettings = defaultCachingSettings,
   externalSettings = defaultExternalSettings,
   multiple = false,
+  closeOnSelect = false,
   options = [],
   selected = multiple ? [] : undefined,
   onChange,
@@ -68,6 +69,7 @@ export const Typeahead: React.FC<TypeaheadProps> = ({
   const [, startTransition] = useTransition()
 
   const inputRef = useRef<HTMLDivElement | null>(null)
+  const containerRef = useRef<HTMLDivElement | null>(null)
 
   // holds the transformed props in a memoized state
   const memoizedProps = useMemo(
@@ -130,6 +132,8 @@ export const Typeahead: React.FC<TypeaheadProps> = ({
   useEffect(() => {
     startTransition(() => {
       memoizedProps.onChange(typeahead.selectedItems)
+
+      if (!multiple && closeOnSelect) typeahead.showMenu(false)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [typeahead.selectedItems])
@@ -141,13 +145,31 @@ export const Typeahead: React.FC<TypeaheadProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [typeahead.deferredTerm])
 
+  // when the current active item is changed (through keyDown events), we must scroll the list to show it to the screen
+  useEffect(() => {
+    if (!containerRef.current || !typeahead.activeItem) return
+
+    const el = containerRef.current.querySelector(
+      `#list-item-${typeahead.activeItem}`
+    )
+
+    // @ts-ignore
+    // As implementing a full blown virtualised list could be too problematic for this test,
+    // I've decided to use this small snippet, where it scrolls to the item when navigating with the keyboard
+    // WARNING: does not work with firefox and firefox mobile
+    // https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
+    if (el?.scrollIntoViewIfNeeded)
+      //@ts-ignore
+      el?.scrollIntoViewIfNeeded(false)
+  }, [typeahead.activeItem])
+
   return (
     <ClickOutHandler
       onClickOut={() => {
         typeahead.showMenu(false)
       }}
     >
-      <div style={{ position: "relative" }}>
+      <div style={{ position: "relative" }} ref={containerRef}>
         <TypeaheadContext.Provider
           value={{
             ...typeahead,
