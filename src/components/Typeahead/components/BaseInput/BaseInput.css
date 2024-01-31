@@ -25,6 +25,12 @@
   vertical-align: middle;
 }
 
+.icon-button:disabled,
+.icon-button:disabled img {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 .base-input-root {
   font-weight: bold;
 }
