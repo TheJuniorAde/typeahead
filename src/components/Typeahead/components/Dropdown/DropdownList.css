@@ -1,0 +1,43 @@
+.icon-image {
+  width: 24px;
+  height: 24px;
+}
+
+.icon-image.menu:not(.showing) {
+  transform: rotate(180deg);
+}
+
+.icon-image.loading {
+  animation: icon-spin infinite 20s linear;
+}
+
+.icon-chip {
+  width: 16px;
+  height: 16px;
+}
+
+@keyframes icon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.dropdown-list-root {
+  display: flex;
+  position: absolute;
+  z-index: 1001;
+  width: calc(100% - 20px);
+  left: 10px;
+  box-shadow: 0px 0px 5px 1px rgba(204, 204, 204, 1);
+  border-radius: 10px;
+  border: 1px solid #cccccc;
+}
+
+.dropdown-list-container {
+  overflow-y: auto;
+  width: 100%;
+  border-radius: 10px;
+}

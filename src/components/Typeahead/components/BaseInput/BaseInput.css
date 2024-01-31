@@ -1,0 +1,26 @@
+.base-input-text-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-items: stretch;
+  border: 1px solid #c3c3c3;
+  border-radius: 10px;
+  margin-top: 8px;
+  height: 48px;
+  padding: 0 8px;
+}
+
+.base-input-text-field input {
+  border: 0;
+  margin-left: 8px;
+  margin-right: 8px;
+  outline: none;
+  height: 46px;
+}
+
+.icon-button {
+  border: 0;
+  outline: none;
+  background-color: transparent;
+  vertical-align: middle;
+}
