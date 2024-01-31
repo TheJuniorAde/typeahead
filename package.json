@@ -41,6 +41,6 @@
     ]
   },
   "devDependencies": {
-    "nock": "^13.5.1"
+    "jest-fetch-mock": "^3.0.3"
   }
 }

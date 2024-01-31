@@ -9,8 +9,12 @@ export interface ChipProps {
   onDelete: () => void
 }
 
-export const Chip: React.FC<ChipProps> = ({ label, onDelete }) => (
-  <div className="chip-root" style={{ marginLeft: 4 }}>
+export const Chip: React.FC<ChipProps> = ({
+  label,
+  onDelete,
+  ...otherProps
+}) => (
+  <div className="chip-root" style={{ marginLeft: 4 }} {...otherProps}>
     <Text>{label}</Text>
     <button className="icon-button" onClick={onDelete}>
       <ClearIcon />

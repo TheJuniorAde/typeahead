@@ -1,21 +1,19 @@
-import nock from "nock"
 import { ExternalHandler } from "./externalHandler"
 import { defaultOptions } from "../../../test-utils"
 import { TypeaheadProps } from "../types"
 import { waitFor } from "@testing-library/react"
+import { FetchMock } from "jest-fetch-mock"
 
 describe("ExternalHandler", () => {
+  beforeEach(() => {
+    ;(fetch as FetchMock).resetMocks()
+  })
   it("handles external fetching correctly", async () => {
     const dispatch = jest.fn()
 
-    nock.disableNetConnect()
-    nock.enableNetConnect("127.0.0.1")
-
-    nock("http://test.com")
-      .get("/?q=term")
-      .reply(200, { data: defaultOptions })
-      .get("/?q=termo")
-      .reply(200, defaultOptions)
+    ;(fetch as FetchMock).mockResponseOnce(
+      JSON.stringify({ data: defaultOptions })
+    )
 
     const result = await ExternalHandler.fetchData(
       dispatch,
@@ -30,6 +28,7 @@ describe("ExternalHandler", () => {
     )
 
     expect(result).toEqual(defaultOptions)
+    ;(fetch as FetchMock).mockResponseOnce(JSON.stringify(defaultOptions))
 
     const result2 = await ExternalHandler.fetchData(
       dispatch,

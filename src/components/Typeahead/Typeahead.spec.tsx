@@ -79,7 +79,7 @@ describe("Typeahead", () => {
     )
 
     fireEvent.click(
-      getByTestId("typeahead-selected-item").querySelector("svg")!
+      getByTestId("typeahead-selected-item").querySelector("img")!
     )
     expect(setValues).toHaveBeenCalledWith([])
   })

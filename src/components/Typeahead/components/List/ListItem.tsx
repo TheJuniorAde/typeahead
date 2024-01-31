@@ -24,6 +24,7 @@ export const ListItem: React.FC<ListItemProps> = ({
       onClick={() => onClick?.()}
       className={`list-item ${className} ${selected && "list-item-selected"}`}
       style={style}
+      data-testid="typeahead-list-item"
     >
       {children}
     </div>
