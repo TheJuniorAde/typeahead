@@ -112,20 +112,28 @@ export const Typeahead: React.FC<TypeaheadProps> = ({
     ]
   )
 
-  // we check for all the constraints that apply
-  validateSelectedItemsConstraint(
+  useEffect(() => {
+    // we check for all the constraints that apply
+    validateSelectedItemsConstraint(
+      memoizedProps.multiple,
+      memoizedProps.selected!
+    )
+    validateCachingConstraints(
+      memoizedProps.cachingSettings.caching!,
+      memoizedProps.cachingSettings
+    )
+    validateExternalSourceConstraints(
+      memoizedProps.externalSettings.external!,
+      memoizedProps.externalSettings
+    )
+    validateMenuSettingsConstraint(memoizedProps.menuSettings)
+  }, [
+    memoizedProps.menuSettings,
     memoizedProps.multiple,
-    memoizedProps.selected!
-  )
-  validateCachingConstraints(
-    memoizedProps.cachingSettings.caching!,
-    memoizedProps.cachingSettings
-  )
-  validateExternalSourceConstraints(
-    memoizedProps.externalSettings.external!,
-    memoizedProps.externalSettings
-  )
-  validateMenuSettingsConstraint(memoizedProps.menuSettings)
+    memoizedProps.selected,
+    memoizedProps.cachingSettings,
+    memoizedProps.externalSettings,
+  ])
 
   const typeahead = useTypeahead(memoizedProps)
 
