@@ -71,7 +71,7 @@ function App() {
         onChange={(newValue) => {
           setValue((newValue as TypeaheadSelectedItem) || null)
         }}
-        label="Single single selection"
+        label="Single selection"
         placeholder="custom placeholder"
         options={options}
       />
